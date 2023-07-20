@@ -1,14 +1,14 @@
 let timer = document.getElementById('timer'); // select the input
 let counter = document.getElementById('counter'); // show the timer
 let type = document.getElementById('type'); // show the text
-let showScore = document.getElementById('showScore');
+let showScore = document.getElementsByClassName('showScore');
 let selectedTimer = 60 // timer selected by user default is 60
 let startTimer = false; // true after starting time
 let id; // for setInterval
 let text = ["abc", "def", "ghi", "jkl", "mno", "pqr", "stu", "vwx", "yz"];
 let userText = [""];
 
-
+// when the timer is changed
 timer.onchange = function (e) {
     selectedTimer = e.target.value;
     counter.innerHTML = `<div class="number">
@@ -16,7 +16,14 @@ timer.onchange = function (e) {
                         </div>
                         `
 };
+
+// when the page is loaded
 document.addEventListener("DOMContentLoaded", async function () {
+    let res = await fetch("http://localhost:3000/1", {
+        method: "GET",
+    });
+    text = (await res.json()).Data.split(" ");
+    console.log(text);
     type.innerHTML = `<div class="caret"></div>`
     for (let i = 0; i < text.length; i++) {
         for (let j = 0; j < text[i].length; j++) {
@@ -28,6 +35,35 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 });
 
+
+// runs when the timer is finished
+function calculateScore() {
+    let score = 0, total = 0;
+    let wpm = 0;
+
+
+    for (let i = 0; i < userText.length; i++) {
+        if (i < text.length) {
+            if (userText[i] === text[i]) {
+                wpm++;
+            }
+            total += text[i].length;
+        } else break;
+        for (let j = 0; j < userText[i].length; j++) {
+            if (j < text[i].length && userText[i][j] === text[i][j]) {
+                score++;
+            }
+        }
+    }
+    console.log(score);
+    score = ((score / total) * 100).toString();
+    showScore[0].innerText = wpm * (60 / selectedTimer) + " WPM";
+    console.log(score);
+    showScore[1].innerText = parseFloat(score).toFixed(2) + "%";
+}
+
+
+// starts the timer
 function start() {
     if (!startTimer) {
         timer.disabled = true;
@@ -35,30 +71,19 @@ function start() {
         let stop = selectedTimer;
         id = setInterval(() => {
             counter.innerHTML = `<div class="number">
-                            <p>${--selectedTimer}s</p>
+                            <p>${--stop}s</p>
                         </div>
                         `
         }, 1000);
-
         setTimeout(() => {
-            let score = 0, total = 0;
-            for (let i = 0; i < text.length; i++) {
-                total += text[i].length;
-            }
-            for (let i = 0; i < userText.length; i++) {
-                for (let j = 0; j < userText[i].length; j++) {
-                    if (j < text[i].length && userText[i][j] === text[i][j]) {
-                        score++;
-                    }
-                }
-            }
-            score = ((score / total) * 100).toString();
-            showScore.innerText = parseFloat(score).toFixed(2) + "%";
+            calculateScore();
             clearInterval(id);
-        }, stop * 1000);
+        }, selectedTimer * 1000);
     }
 }
 
+
+// when the user types
 document.addEventListener('keydown', function (e) {
     if (e.key >= 'a' && e.key <= 'z' || e.key === ' ' || e.key === 'Backspace') {
 
@@ -72,7 +97,6 @@ document.addEventListener('keydown', function (e) {
         } else
             userText[userText.length - 1] += e.key;
         type.innerHTML = ``
-        console.log(userText)
         for (let i = 0; i < userText.length; i++) {
             for (let j = 0; j < userText[i].length; j++) {
                 if (j < text[i].length && userText[i][j] === text[i][j]) {
@@ -105,6 +129,8 @@ document.addEventListener('keydown', function (e) {
     }
 })
 
+
+// restart the game
 function restart() {
     location.reload();
 }

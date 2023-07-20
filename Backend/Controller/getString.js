@@ -2,7 +2,7 @@ const fs = require('fs');
 let words;
 
 fs.readFile('./Public/words.txt','utf8', function(err,data) {
-    words = data.toString().split('\r\n');
+    words = data.toString().split(' ');
 });
 
 module.exports.generateString = function generateString(req,res){
