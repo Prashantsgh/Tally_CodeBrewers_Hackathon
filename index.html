@@ -15,28 +15,22 @@
     <div class="mt-5 d-flex justify-content-around">
         <div id="counter" class="countdown">
             <div class="number">
-                <p>60s</p>
+                <p>60</p>
             </div>
         </div>
-        <select id="timer" class="form-select w-25" aria-label="Default select example">
-            <option selected value="60" >60s</option>
+
+        <select id="timer" class="form-select w-25 text" aria-label="Default select example">
+            <option selected value="60">60s</option>
             <option value="30">30s</option>
             <option value="15">15s</option>
         </select>
     </div>
-
-
-    <div class="mx-5">
-        <div class="form-group shadow-textarea">
-            <label for="text"></label>
-            <textarea class="form-control z-depth-1" id="text" rows="15"
-                                                placeholder="Write something here..."></textarea>
-        </div>
+    <div id="type" class="mx-5">
     </div>
-
-
     <button type="button" class="btn m-lg-5 mt-0 btn-outline-primary" onclick="restart()">Restart</button>
-
+    <div class="mx-5 score">
+        Your score: <span id="showScore">0</span>
+    </div>
 </div>
 
 <script src="./main.js"></script>
