@@ -12,60 +12,34 @@
 
 
 <div>
-
-    <div class="mt-5">
-        <div class="countdown">
+    <div class="mt-5 d-flex justify-content-around">
+        <div id="counter" class="countdown">
             <div class="number">
-                <p>10</p>
-            </div>
-
-            <div class="number">
-                <p>9</p>
-            </div>
-
-            <div class="number">
-                <p>8</p>
-            </div>
-
-            <div class="number">
-                <p>7</p>
-            </div>
-
-            <div class="number">
-                <p>6</p>
-            </div>
-
-            <div class="number">
-                <p>5</p>
-            </div>
-
-            <div class="number">
-                <p>4</p>
-            </div>
-
-            <div class="number">
-                <p>3</p>
-            </div>
-
-            <div class="number">
-                <p>2</p>
-            </div>
-
-            <div class="number">
-                <p>1</p>
+                <p>60s</p>
             </div>
         </div>
+        <select id="timer" class="form-select w-25" aria-label="Default select example">
+            <option selected value="60" >60s</option>
+            <option value="30">30s</option>
+            <option value="15">15s</option>
+        </select>
     </div>
-    <div class="m-5">
+
+
+    <div class="mx-5">
         <div class="form-group shadow-textarea">
-            <label for="text"></label><textarea class="form-control z-depth-1" id="text" rows="20"
+            <label for="text"></label>
+            <textarea class="form-control z-depth-1" id="text" rows="15"
                                                 placeholder="Write something here..."></textarea>
         </div>
     </div>
 
+
+    <button type="button" class="btn m-lg-5 mt-0 btn-outline-primary" onclick="restart()">Restart</button>
+
 </div>
 
-
+<script src="./main.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz"
         crossorigin="anonymous"></script>
