@@ -7,7 +7,7 @@ let startTimer = false; // true after starting time
 let id; // for setInterval
 let text = ["abc", "def", "ghi", "jkl", "mno", "pqr", "stu", "vwx", "yz"];
 let userText = [""];
-
+let stopeTheGame = false; // true when the timer is finished
 // when the timer is changed
 timer.onchange = function (e) {
     selectedTimer = e.target.value;
@@ -23,7 +23,6 @@ document.addEventListener("DOMContentLoaded", async function () {
         method: "GET",
     });
     text = (await res.json()).Data.split(" ");
-    console.log(text);
     type.innerHTML = `<div class="caret"></div>`
     for (let i = 0; i < text.length; i++) {
         for (let j = 0; j < text[i].length; j++) {
@@ -38,10 +37,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 // runs when the timer is finished
 function calculateScore() {
-    let score = 0, total = 0;
-    let wpm = 0;
-
-
+    let score = 0, total = 0, wpm = 0;
     for (let i = 0; i < userText.length; i++) {
         if (i < text.length) {
             if (userText[i] === text[i]) {
@@ -55,10 +51,8 @@ function calculateScore() {
             }
         }
     }
-    console.log(score);
     score = ((score / total) * 100).toString();
     showScore[0].innerText = wpm * (60 / selectedTimer) + " WPM";
-    console.log(score);
     showScore[1].innerText = parseFloat(score).toFixed(2) + "%";
 }
 
@@ -76,6 +70,7 @@ function start() {
                         `
         }, 1000);
         setTimeout(() => {
+            stopeTheGame = true;
             calculateScore();
             clearInterval(id);
         }, selectedTimer * 1000);
@@ -85,8 +80,8 @@ function start() {
 
 // when the user types
 document.addEventListener('keydown', function (e) {
+    if (stopeTheGame) return;
     if (e.key >= 'a' && e.key <= 'z' || e.key === ' ' || e.key === 'Backspace') {
-
         start(); // called only once
         if (e.key === ' ') {
             userText.push("");
