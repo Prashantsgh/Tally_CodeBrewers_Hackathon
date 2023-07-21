@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=David+Libre:wght@500&display=swap');
 
 body {
-    color: black;
     font-family: 'David Libre', serif;
 }
 
@@ -44,11 +43,19 @@ body {
     margin-top: 50px;
     font-size: 30px;
     font-weight: bold;
+    background-color: rgb(121, 140, 165, 0.5);
 }
 
 .score{
     font-size: 30px;
     font-weight: bold;
+    width: 350px;
+    background-color: rgb(187, 196, 205, 0.8);
+    display: inline-block;
+    margin: 10px;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 2px 2px rgb(72, 67, 67);
 }
 
 
@@ -61,7 +68,52 @@ body {
 }
 
 .gray {
-    color: #808080;
+    color: #ededed;
 }
 
+#loading{
+    margin: 30px auto;
+    background-color: rgba(226, 226, 226, 0.6);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 1px 2px lightgray;
+    width: 300px;
+}
+
+#app{
+    width: fit-content;
+    margin: 10px auto;
+}
+
+#wait{
+    width: 300px;
+    margin: 0 auto;
+}
+
+.player{
+    border-radius: 5px;
+    margin: 15px;
+    box-shadow: 0px 0px 1px 1px black;
+    font-size: large;
+    background-color: lightcyan;
+    padding: 10px;
+}
+
+#counter{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    text-align: center;
+    border: 2px solid black;
+    padding: 10px;
+    display: inline-block;
+}
+
+.scorecard{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 20px;
+}
 

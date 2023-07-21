@@ -4,7 +4,8 @@ const database_link = "mongodb+srv://07prashantsgh:GJi4bOzMHd2bny24@cluster0.fwl
 
 // Connect to mongodb database
 mongoose.connect(database_link)
-    .then(function(db){
+    .then(async function(db){
+        await lobbyModel.deleteMany({});
         console.log('Lobby Database Successfully Connected');
     })
     .catch(function(err){

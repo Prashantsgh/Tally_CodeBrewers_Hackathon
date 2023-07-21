@@ -49,15 +49,17 @@ function setupTimer(){
 
     $("#app").attr("hidden", false);
 
-    startTimer();
+    startwaitTimer();
 }
 
 
 function onTimesUp() {
     clearInterval(timerInterval);
+    clearInterval(timerInterval2);
+    setupGame();
 }
 
-function startTimer() {
+function startwaitTimer() {
     timerInterval = setInterval(() => {
         timePassed = timePassed += 1;
         timeLeft = TIME_LIMIT - timePassed;

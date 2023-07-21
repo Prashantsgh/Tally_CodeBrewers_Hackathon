@@ -1,20 +1,32 @@
-<div>
-    <div id="app" hidden></div>
+<div id="loading">
+    <div id="app"></div>
 
-    <div style="margin: 30px;">
+    <div class="text-center" >
         <span id="wait">Waiting For Players To Join.</span>
     </div>
-    
+</div>
+
+<div id="game" hidden>
+    <div class="scorecard">
+        <div id="counter" class="countdown">
+            <div class="number">
+                <p>30</p>
+            </div>
+        </div>
+
+        <div class="mx-5 score">
+            Speed: <span class="showScore">0</span> <br>
+            Accuracy: <span class="showScore">0</span>
+        </div>
+    </div>
+
     <div id="type" class="mx-5">
     </div>
 </div>
 
-<div style="width: 200px; height: 400px; border: 2px solid black;">
+<div class="text-center" style="width: 250px; background-color: rgb(236, 236, 234); box-shadow: 0px 0px 2px 3px gray; margin: 20px auto; padding-bottom: 10px; min-height: 150px;">
+    <div style="font-size: larger; font-weight: 500px; padding: 5px; background-color: lightslategray; color:white;" id="ranking-heading">Players In Lobby</div>
+    <div id="players">
 
-</div>
-<div hidden>
-    <div class="mx-5 score">
-        Speed: <span class="showScore">0</span> <br>
-        Accuracy: <span class="showScore">0</span>
     </div>
 </div>
