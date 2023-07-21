@@ -1,76 +1,77 @@
 let lobbyDetails;
-let playerid = "demo"+Math.floor(Math.random()*1000).toString();
+let playerid = new URLSearchParams(window.location.search).get("username");
+console.log(playerid)
 let socket = io("http://localhost:3000");
 
-$("#join-lobby").click(()=>{
+$("#join-lobby").click(() => {
     let mode = $('input[name="mode"]:checked').val();
     let url = `http://localhost:3000/lobby?id=${playerid}&mode=${mode}`;
-    $.get(url, (data)=>{
+    $.get(url, (data) => {
         lobbyDetails = data;
-        $('body').load("lobby.html", ()=>{
+        $('body').load("lobby.html", () => {
             setupLobby();
         });
     });
 });
 
-function setupLobby(){
+function setupLobby() {
     socket.emit("Join", lobbyDetails.lobbyid);
 
     // Updating Players in Waiting Lobby
-    socket.on("players", (players)=>{
+    socket.on("players", (players) => {
         lobbyDetails.players = players;
         $("#players").html("");
-        for(let i = 0; i<players.length; i++){
+        for (let i = 0; i < players.length; i++) {
             $("#players").append(`<div class="player text-center">${players[i]}</div>`);
         }
     });
 
-    socket.on("ranking", (rankings)=>{
-        if($("#ranking-heading").text() == "Final Leaderboard"){
+    socket.on("ranking", (rankings) => {
+        if ($("#ranking-heading").text() === "Final Leaderboard") {
             return;
         }
         let temp = [];
-        for(let item in rankings){
+        for (let item in rankings) {
             temp[temp.length] = [item, rankings[item]];
         }
 
-        temp = temp.sort(function(a, b) {
+        temp = temp.sort(function (a, b) {
             return b[1] - a[1];
         });
 
         $("#players").html("");
-        for(let i = 0; i<temp.length; i++){
+        for (let i = 0; i < temp.length; i++) {
             $("#players").append(`<div class="player" style="display: flex; justify-content: space-between;"> <span>${temp[i][0]}</span>  <span>${temp[i][1]} Words</span> </div>`);
         }
     });
 
-    socket.on("Result", (scores)=>{
+    socket.on("Result", (scores) => {
         $("#ranking-heading").text("Final Leaderboard");
         $("#players").html("");
 
         let temp = [];
-        for(let item in scores){
+        for (let item in scores) {
             temp[temp.length] = [item, scores[item].words, scores[item].score];
         }
 
-        temp = temp.sort(function(a, b) {
-            if(b[1]==a[1]){
+        temp = temp.sort(function (a, b) {
+            if (b[1] === a[1]) {
                 return b[2] - a[2];
             }
             return b[1] - a[1];
         });
 
-        for(let i = 0; i<temp.length; i++){
+        for (let i = 0; i < temp.length; i++) {
             $("#players").append(`<div class="player text-center"> <span>${temp[i][0]}</span>  <span>${temp[i][1]}</span> <span>${temp[i][2]}</span></div>`);
         }
     });
 
 
-    TIME_LIMIT = lobbyDetails.time - Math.floor(Date.now()/1000) + 30;
+    TIME_LIMIT = lobbyDetails.time - Math.floor(Date.now() / 1000) + 30;
     setupTimer();
 }
 
-function setupGame(){
+function setupGame() {
     $("#loading").attr("hidden", true);
     $("#game").attr("hidden", false);
 
@@ -84,7 +85,7 @@ function setupGame(){
     //     return;
     // }
 
-    type=document.getElementById("type");
+    type = document.getElementById("type");
     text = lobbyDetails.sentence.split(" ");
     type.innerHTML = `<div class="caret"></div>`
     for (let i = 0; i < text.length; i++) {
@@ -95,7 +96,7 @@ function setupGame(){
         type.innerHTML += `<span> &nbsp; </span>`
     }
 
-    setTimeout(()=>{
+    setTimeout(() => {
         start();
-    },10000);
+    }, 10000);
 }

@@ -9,6 +9,7 @@ let text = ["abc", "def", "ghi", "jkl", "mno", "pqr", "stu", "vwx", "yz"];
 let userText = [""];
 let stopeTheGame = false; // true when the timer is finished
 // when the timer is changed
+
 timer.onchange = function (e) {
     selectedTimer = e.target.value;
     counter.innerHTML = `<div class="number">
@@ -17,8 +18,10 @@ timer.onchange = function (e) {
                         `
 };
 
-// when the page is loaded
-document.addEventListener("DOMContentLoaded", async function () {
+async function singlePlayer() {
+    document.getElementById('single').disabled = true;
+    document.getElementById('multi').disabled = true;
+    timer.disabled = true;
     let res = await fetch("http://localhost:3000/1", {
         method: "GET",
     });
@@ -32,8 +35,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
         type.innerHTML += `<span> &nbsp; </span>`
     }
-});
-
+}
 
 // runs when the timer is finished
 function calculateScore() {
@@ -128,5 +130,10 @@ document.addEventListener('keydown', function (e) {
 // restart the game
 function restart() {
     location.reload();
+}
+
+
+function multiplayer() {
+    window.location.href = `http://localhost:5173/HTML/login.html`;
 }
 

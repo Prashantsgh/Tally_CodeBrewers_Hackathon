@@ -12,6 +12,14 @@
 
 
 <div>
+    <div class="centre">
+        <button id="multi" type="button" onclick="multiplayer()" class="btn mt-5 btn-outline-primary">Play
+            Multiplayer
+        </button>
+        <button id="single" type="button" onclick="singlePlayer()" class="btn mt-5 btn-outline-primary">Play
+            singlePlayer
+        </button>
+    </div>
     <div class="mt-5 d-flex justify-content-around">
         <div id="counter" class="countdown">
             <div class="number">
@@ -25,9 +33,10 @@
             <option value="15">15s</option>
         </select>
     </div>
-    <div id="type" class="mx-5">
+    <div id="type" class="mx-5"></div>
+    <div class="centre">
+        <button type="button" class="btn m-lg-5 mt-0 btn-outline-primary" onclick="restart()">Restart</button>
     </div>
-    <button type="button" class="btn m-lg-5 mt-0 btn-outline-primary" onclick="restart()">Restart</button>
     <div class="mx-5 score">
         Speed: <span class="showScore">0</span> <br>
         Accuracy: <span class="showScore">0</span>
