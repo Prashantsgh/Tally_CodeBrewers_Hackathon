@@ -1,0 +1,10 @@
+section{
+    width: min(550px,80vw);
+    margin: 20vh auto;
+    border: 2px solid black;
+    padding: 15px;
+}
+
+#username, #password{
+    width: 100%;
+}

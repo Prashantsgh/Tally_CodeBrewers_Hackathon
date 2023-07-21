@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=David+Libre:wght@500&display=swap');
+
+body {
+    color: black;
+    font-family: 'David Libre', serif;
+}
+
+.word {
+    display: inline-block;
+}
+
+.number {
+    font-size: 50px;
+}
+
+#timer {
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.caret {
+    display: inline-block;
+    background-color: #ff0000;
+    width: 2px;
+    height: 35px;
+    animation: caretAnimation 1s linear infinite;
+}
+
+@keyframes caretAnimation {
+    0% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 0.7;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+#type {
+    margin-top: 50px;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.score{
+    font-size: 30px;
+    font-weight: bold;
+}
+
+
+.red {
+    color: #ff0000;
+}
+
+.green {
+    color: #00ff00;
+}
+
+.gray {
+    color: #808080;
+}
+
+

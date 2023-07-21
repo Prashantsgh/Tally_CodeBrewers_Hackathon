@@ -1,0 +1,12 @@
+h1{
+    width: fit-content;
+    padding: 15px;
+    border: 1px solid gray;
+    margin: 20px auto;
+}
+
+.container{
+    display:flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
