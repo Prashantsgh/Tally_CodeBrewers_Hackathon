@@ -51,12 +51,15 @@ io.on('connection', (socket) => {
 
     // Updating the Results of current Lobby
     socket.on('Result', function (lobbyid, playerid, words, score) {
+        console.log(lobbyid, typeof lobbyid);
+        console.log(lobbies);
+        console.log();
         lobbies[lobbyid].scores[playerid] = {words, score};
         io.to(lobbyid).emit("Result", lobbies[lobbyid].scores);
 
         setTimeout(()=>{
             socket.leave(lobbyid);
-        }, 20000);
+        }, 0);
     });
 });
 

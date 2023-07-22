@@ -52,7 +52,7 @@ module.exports.newLobby = async function newLobby(req, res) {
 
         setTimeout(()=>{
             closeLobby(tempLobby.lobbyid);
-        }, 150000);
+        }, 120000);
         res.send(tempLobby);
     }
 }
@@ -72,6 +72,7 @@ async function closeLobby(lobbyid){
             newGame = 1;
             newWords+=scores[item].words;
             players++;
+            console.log(typeof accuracy, typeof scores[item].score);
             accuracy+=scores[item].score;
 
             let flag=1;
@@ -97,15 +98,17 @@ async function closeLobby(lobbyid){
 
     // Updating Game Stats
     let stats = await statsModel.find();
-
     stats=stats[0];
-    stats.gamesPlayed+=newGame;
-    stats.wordCount+=newWords;
-    stats.avgAccuracy = ((stats.avgAccuracy*stats.playersCount)+accuracy)/(stats.playersCount+players);
-    stats.avgSpeed = ((stats.avgSpeed*stats.playersCount)+newWords)/(stats.playersCount+players);
-    stats.playersCount +=players;
+    if(newGame==1){
+        stats.gamesPlayed += newGame;
+        stats.wordCount += newWords;
+        stats.avgAccuracy = ((stats.avgAccuracy*stats.playersCount)+accuracy)/(stats.playersCount+players);
+        stats.avgSpeed = ((stats.avgSpeed*stats.playersCount)+newWords)/(stats.playersCount+players);
+        stats.playersCount += players;
 
-    // await stats.save();
+        stats = await stats.save();
+        console.log(stats);
+    }
 
     lobbies[lobbyid]=undefined;
 }

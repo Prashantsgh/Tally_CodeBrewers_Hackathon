@@ -36,7 +36,7 @@ module.exports.getString = function getString(diff = "easy") {
             }
             word = temp;
         }
-        console.log(word);
+        
         sentence += " " + word;
         cnt++;
     }

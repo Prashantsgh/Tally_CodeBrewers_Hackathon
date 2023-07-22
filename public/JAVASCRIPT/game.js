@@ -2,7 +2,7 @@ let timer = document.getElementById('timer'); // select the input
 let counter = document.getElementById('counter'); // show the timer
 let type = document.getElementById('type'); // show the text
 let showScore = document.getElementsByClassName('showScore');
-let selectedTimer = 60 // timer selected by user default is 60
+let selectedTimer = 10 // timer selected by user default is 60
 let startTimer = false; // true after starting time
 let id; // for setInterval
 let text;
@@ -29,14 +29,14 @@ function showResult() {
         }
     }
 
-    score = ((score / total) * 100).toString();
-    score = parseFloat(score).toFixed(2);
-    showScore[0].innerText = words * (60 / selectedTimer) + " WPM";
-    showScore[1].innerText = score + "%";
+    score = ((score / total) * 100);
 
     setTimeout(()=>{
         socket.emit("Result", lobbyDetails.lobbyid , playerid , words * (60 / selectedTimer) , score);
     }, 11000);
+
+    showScore[0].innerText = words * (60 / selectedTimer) + " WPM";
+    showScore[1].innerText = score.toFixed(2) + "%";
 }
 
 
