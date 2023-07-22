@@ -134,6 +134,6 @@ function restart() {
 
 
 function multiplayer() {
-    window.location.href = `http://localhost:5173/HTML/login.html`;
+    window.open("http://localhost:5173/HTML/login.html", "_target");
 }
 

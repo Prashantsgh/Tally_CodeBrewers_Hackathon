@@ -1,7 +1,34 @@
 let lobbyDetails;
 let playerid = new URLSearchParams(window.location.search).get("username");
-console.log(playerid)
+let showGlobalRanking = document.getElementById('showGlobalRanking');
+let stats = document.getElementById('stats');
 let socket = io("http://localhost:3000");
+
+document.addEventListener("DOMContentLoaded", async function () {
+    try {
+        // Fetching Global Data
+        let res = await fetch("http://localhost:3000/globaldata", {
+            method: "GET",
+        });
+        res = res.json();
+        for (let i = 0; i < res.length; i++) {
+            showGlobalRanking.innerHTML += `<p>${res[i].username}: ${res[i].score}</p>`
+        }
+        // Fetching Sites Stats
+        res = await fetch("http://localhost:3000/stats", {
+            method: "GET",
+        });
+        res = res.json();
+        stats.innerHTML = `<p>Games Played: ${res.gamesPlayed}</p><p>Words Typed: ${res.wordsTyped}</p><p>Accuracy: ${res.accuracy}%</p><p>WPM: ${res.wpm}</p>`
+
+    } catch (e) {
+        console.error("Error in fetching global data: ", e);
+    }
+});
+
+function singlePlayer() {
+    window.open("/", "_target");
+}
 
 $("#join-lobby").click(() => {
     let mode = $('input[name="mode"]:checked').val();

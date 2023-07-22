@@ -1,4 +1,4 @@
-body{
+body {
     height: 100vh;
     background-repeat: no-repeat;
     background-attachment: fixed;
@@ -6,7 +6,7 @@ body{
     background-image: linear-gradient(315deg, #000000 0%, #7f8c8d 74%);
 }
 
-h1{
+h1 {
     width: fit-content;
     padding: 10px;
     border-radius: 5px;
@@ -16,7 +16,7 @@ h1{
     background-color: #b0b8b9;
 }
 
-#choose-lobby{
+#choose-lobby {
     border-radius: 10px;
     width: min(70vw, 500px);
     height: 300px;
@@ -26,21 +26,33 @@ h1{
     justify-content: center;
     margin-bottom: 40px;
     border: 2px solid gray;
-
-    box-shadow: 0px 0px 1px 2px rgb(130, 130, 130);
+    box-shadow: 0 0 1px 2px rgb(130, 130, 130);
 }
 
-.container{
-
+.container {
     background: rgba(255, 255, 255, 0.4);
     backdrop-filter: saturate(180%) blur(20px);
     border-radius: 20px;
-
     width: min(95vw, 1500px);
-    display:flex;
+    display: flex;
     justify-content: space-evenly;
     align-items: center;
     flex-wrap: wrap;
     padding: 20px;
-    margin: 50px auto;
+    margin: 100px auto;
+}
+
+#statsContainer {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 1;
+    border: 2px solid black;
+    color: #ededed;
+}
+
+#single{
+    position: absolute;
+    bottom: 2%;
+    left: 50%;
 }
