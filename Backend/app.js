@@ -56,7 +56,7 @@ io.on('connection', (socket) => {
 
         setTimeout(()=>{
             socket.leave(lobbyid);
-        }, 0);
+        }, 20000);
     });
 });
 

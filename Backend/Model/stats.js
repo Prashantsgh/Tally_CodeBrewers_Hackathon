@@ -33,12 +33,12 @@ const statsSchema = mongoose.Schema({
 const statsModel = mongoose.model('statsModel', statsSchema);
 module.exports = statsModel;
 
-// const temp = {
-//     gamesPlayed: 20,
-//     wordCount: 500,
-//     avgAccuracy: 90,
-//     avgSpeed: 40,
-//     playersCount:10
-// };
+const temp = {
+    gamesPlayed: 0,
+    wordCount: 0,
+    avgAccuracy: 0,
+    avgSpeed: 0,
+    playersCount:0
+};
 
 // statsModel.create(temp);

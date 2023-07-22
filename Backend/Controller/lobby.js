@@ -2,6 +2,7 @@ const globalRanking = require('../Model/globalRanking');
 const lobbyModel = require('../Model/lobby');
 const statsModel = require('../Model/stats');
 const {getString} = require('./getString');
+
 const lobbies = [];
 
 module.exports.lobbies = lobbies;
@@ -29,7 +30,7 @@ module.exports.newLobby = async function newLobby(req, res) {
             }
         }
 
-        let sentence = getString();
+        let sentence = getString(mode.toLowerCase());
         let tempLobby = {
             lobbyid,
             mode,
@@ -51,13 +52,18 @@ module.exports.newLobby = async function newLobby(req, res) {
 
         setTimeout(()=>{
             closeLobby(tempLobby.lobbyid);
-        }, 30000);
+        }, 150000);
         res.send(tempLobby);
     }
 }
 
 async function closeLobby(lobbyid){
     let temp = await globalRanking.find();
+
+    temp = temp.map((item)=>{
+        return {username:item.username, wordCount:item.wordCount};
+    });
+
     let scores = lobbies[lobbyid].scores;
 
     let newWords=0, newGame=0, players=0,accuracy=0;
@@ -86,7 +92,7 @@ async function closeLobby(lobbyid){
         return b.wordCount - a.wordCount;
     }).slice(0,10);
 
-    // await globalRanking.deleteMany({});
+    await globalRanking.deleteMany({});
     await globalRanking.create(temp);
 
     // Updating Game Stats
@@ -99,8 +105,7 @@ async function closeLobby(lobbyid){
     stats.avgSpeed = ((stats.avgSpeed*stats.playersCount)+newWords)/(stats.playersCount+players);
     stats.playersCount +=players;
 
-    console.log(stats);
-    await stats.save();
+    // await stats.save();
 
     lobbies[lobbyid]=undefined;
 }

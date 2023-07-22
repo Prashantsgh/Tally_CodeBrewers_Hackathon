@@ -51,6 +51,7 @@ function calculateScore() {
             }
             total += text[i].length;
         } else break;
+        
         for (let j = 0; j < userText[i].length; j++) {
             if (j < text[i].length && userText[i][j] === text[i][j]) {
                 score++;

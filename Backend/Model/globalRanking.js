@@ -15,9 +15,7 @@ mongoose.connect(database_link)
 
 const globalSchema = mongoose.Schema({
     username: {
-        type: String,
-        required: true,
-        unique: true
+        type: String
     },
     wordCount: {
         type: Number,

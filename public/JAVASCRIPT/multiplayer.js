@@ -113,7 +113,7 @@ function setupLobby() {
     });
 
 
-    TIME_LIMIT = lobbyDetails.time - Math.floor(Date.now() / 1000) + 5;
+    TIME_LIMIT = lobbyDetails.time - Math.floor(Date.now() / 1000) + 30;
     setupTimer();
 }
 
