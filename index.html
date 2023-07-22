@@ -22,7 +22,7 @@
     <div class="mt-5 d-flex justify-content-around">
         <div id="counter" class="countdown">
             <div class="number">
-                <p>60</p>
+                <p>60s</p>
             </div>
         </div>
 
@@ -31,8 +31,13 @@
             <option value="30">30s</option>
             <option value="15">15s</option>
         </select>
+        <select id="diff" class="form-select w-25 text" aria-label="Default select example">
+            <option value="easy">Easy</option>
+            <option selected value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
     </div>
-    <div id="type" class="mx-5"></div>
+    <div id="type" class="mx-5 d-flex flex-wrap"></div>
     <div class="centre">
         <button type="button" class="btn m-lg-5 mt-0 btn-outline-primary" onclick="restart()">Restart</button>
     </div>

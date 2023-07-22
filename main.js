@@ -1,4 +1,5 @@
 let timer = document.getElementById('timer'); // select the input
+let diff = document.getElementById('diff'); // select the difficulty
 let counter = document.getElementById('counter'); // show the timer
 let type = document.getElementById('type'); // show the text
 let showScore = document.getElementsByClassName('showScore');
@@ -8,8 +9,9 @@ let id; // for setInterval
 let text = ["abc", "def", "ghi", "jkl", "mno", "pqr", "stu", "vwx", "yz"];
 let userText = [""];
 let stopeTheGame = false; // true when the timer is finished
-// when the timer is changed
 
+
+// when the timer is changed
 timer.onchange = function (e) {
     selectedTimer = e.target.value;
     counter.innerHTML = `<div class="number">
@@ -18,11 +20,13 @@ timer.onchange = function (e) {
                         `
 };
 
+// start the game
 async function singlePlayer() {
     document.getElementById('single').disabled = true;
     document.getElementById('multi').disabled = true;
     timer.disabled = true;
-    let res = await fetch("http://localhost:3000/1", {
+    diff.disabled = true;
+    let res = await fetch(`http://localhost:3000/${diff.value}`, {
         method: "GET",
     });
     text = (await res.json()).Data.split(" ");
@@ -62,7 +66,6 @@ function calculateScore() {
 // starts the timer
 function start() {
     if (!startTimer) {
-        timer.disabled = true;
         startTimer = true;
         let stop = selectedTimer;
         id = setInterval(() => {
