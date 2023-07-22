@@ -44,15 +44,36 @@ h1 {
 
 #statsContainer {
     position: absolute;
-    top: 20px;
-    right: 20px;
+    top: 10px;
+    right: 10px;
     z-index: 1;
-    border: 2px solid black;
     color: #ededed;
+    background-color: #394344;
+    font-family: Arial, Helvetica, sans-serif;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    border-radius: 2px;
+    box-shadow: 0px 0px 2px 1px rgb(34, 60, 37);
+    backdrop-filter: blur(50px);
 }
 
 #single{
     position: absolute;
-    bottom: 2%;
-    left: 50%;
+    top: 10px;
+    left: 10px;
+    z-index: 1;
+    color: #ededed;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 5px;
+    border-radius: 2px;
+    box-shadow: 0px 0px 2px 1px rgb(34, 60, 37);
+    backdrop-filter: blur(50px);
+}
+
+button{
+    border-radius: 2px;
+    box-shadow: 0px 0px 2px 1px rgb(34, 60, 37);
+    backdrop-filter: blur(50px);
 }

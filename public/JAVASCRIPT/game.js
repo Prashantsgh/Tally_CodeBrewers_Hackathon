@@ -2,7 +2,7 @@ let timer = document.getElementById('timer'); // select the input
 let counter = document.getElementById('counter'); // show the timer
 let type = document.getElementById('type'); // show the text
 let showScore = document.getElementsByClassName('showScore');
-let selectedTimer = 60 // timer selected by user default is 60
+let selectedTimer = 5 // timer selected by user default is 60
 let startTimer = false; // true after starting time
 let id; // for setInterval
 let text;
@@ -34,10 +34,9 @@ function showResult() {
     showScore[0].innerText = words * (60 / selectedTimer) + " WPM";
     showScore[1].innerText = score + "%";
 
-    socket.emit("Result", lobbyDetails.lobbyid , playerid , words , score);
-
-    // setTimeout(()=>{
-    // }, 11000);
+    setTimeout(()=>{
+        socket.emit("Result", lobbyDetails.lobbyid , playerid , words * (60 / selectedTimer) , score);
+    }, 11000);
 }
 
 
@@ -53,6 +52,7 @@ function start() {
         stop = selectedTimer;
         id = setInterval(() => {
             counter.innerHTML = `<div class="number"> <p>${--stop}s</p></div>`
+            $(".showScore")[0].innerText = Math.floor(60 * words/ (selectedTimer-stop)) + " WPM";
         }, 1000);
 
         setTimeout(() => {
@@ -73,18 +73,14 @@ document.addEventListener('keydown', function (e) {
         start(); // called only once
 
         if (e.key === ' ') {
-
             // Increasing Count of word typed for every Space Pressed
             if(userText.length-1<text.length){
                 if(userText[userText.length-1]==text[userText.length-1]){
                     words++;
-
                     socket.emit("WordCount", lobbyDetails.lobbyid, playerid, words);
                 }
             }
             userText.push("");
-
-            $(".showScore")[0].innerText = Math.floor(60 * words/ (selectedTimer-stop)) + " WPM";
         }
         else if (e.key === 'Backspace') {
             if (userText[userText.length - 1] !== "") {

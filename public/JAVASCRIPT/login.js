@@ -1,6 +1,7 @@
 username = document.getElementById("username");
 
-async function login() {
+$("form").submit(async function(e){
+    e.preventDefault();
     try {
         let res = await fetch('http://localhost:3000/create/', {
             method: 'POST',
@@ -20,4 +21,5 @@ async function login() {
     } catch (e) {
         console.error("Error in creating user: ", e);
     }
-}
+});
+

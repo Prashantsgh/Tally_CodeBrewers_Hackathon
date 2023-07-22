@@ -4,22 +4,37 @@ let showGlobalRanking = document.getElementById('showGlobalRanking');
 let stats = document.getElementById('stats');
 let socket = io("http://localhost:3000");
 
-document.addEventListener("DOMContentLoaded", async function () {
+console.log(playerid);
+
+// For Loading Leaderboard and Site Data
+document.addEventListener("DOMContentLoaded", function () {
     try {
         // Fetching Global Data
-        let res = await fetch("http://localhost:3000/globaldata", {
+        fetch("http://localhost:3000/globaldata", {
             method: "GET",
+        })
+        .then((res)=>{
+            return res.json();
+        })
+        .then((res)=>{
+            res = res.sort(function (a, b) {
+                return b.wordCount - a.wordCount;
+            });
+            for (let i = 0; i < res.length; i++) {
+                showGlobalRanking.innerHTML += `<p style="border-radius: 10px; padding: 5px; margin: 5px; color:white; background-color: #394344;">${res[i].username}: &nbsp;&nbsp;&nbsp;&nbsp;${res[i].wordCount} wpm</p>`
+            }
         });
-        res = res.json();
-        for (let i = 0; i < res.length; i++) {
-            showGlobalRanking.innerHTML += `<p>${res[i].username}: ${res[i].score}</p>`
-        }
+
         // Fetching Sites Stats
-        res = await fetch("http://localhost:3000/stats", {
+        fetch("http://localhost:3000/stats", {
             method: "GET",
+        })
+        .then((res)=>{
+            return res.json();
+        })
+        .then((res)=>{
+            stats.innerHTML = `<p>Games Played: ${res.gamesPlayed}</p><p>Words Typed: ${res.wordCount}</p><p>Accuracy: ${res.avgAccuracy}%</p><p>WPM: ${res.avgSpeed}</p>`;
         });
-        res = res.json();
-        stats.innerHTML = `<p>Games Played: ${res.gamesPlayed}</p><p>Words Typed: ${res.wordsTyped}</p><p>Accuracy: ${res.accuracy}%</p><p>WPM: ${res.wpm}</p>`
 
     } catch (e) {
         console.error("Error in fetching global data: ", e);
@@ -53,6 +68,7 @@ function setupLobby() {
         }
     });
 
+    // Showing Live Rankings
     socket.on("ranking", (rankings) => {
         if ($("#ranking-heading").text() === "Final Leaderboard") {
             return;
@@ -72,13 +88,16 @@ function setupLobby() {
         }
     });
 
+    // Showing Final Leaderboard
     socket.on("Result", (scores) => {
         $("#ranking-heading").text("Final Leaderboard");
         $("#players").html("");
 
         let temp = [];
         for (let item in scores) {
-            temp[temp.length] = [item, scores[item].words, scores[item].score];
+            if(scores[item].words){
+                temp[temp.length] = [item, scores[item].words, scores[item].score];
+            }
         }
 
         temp = temp.sort(function (a, b) {
@@ -89,12 +108,12 @@ function setupLobby() {
         });
 
         for (let i = 0; i < temp.length; i++) {
-            $("#players").append(`<div class="player text-center"> <span>${temp[i][0]}</span>  <span>${temp[i][1]}</span> <span>${temp[i][2]}</span></div>`);
+            $("#players").append(`<div class="player text-center"><span>${temp[i][0]} &nbsp;&nbsp;</span>  <span>&nbsp;&nbsp;${temp[i][1]} wpm&nbsp;&nbsp;</span> <span>&nbsp;&nbsp;${temp[i][2]}%</span></div>`);
         }
     });
 
 
-    TIME_LIMIT = lobbyDetails.time - Math.floor(Date.now() / 1000) + 30;
+    TIME_LIMIT = lobbyDetails.time - Math.floor(Date.now() / 1000) + 5;
     setupTimer();
 }
 
