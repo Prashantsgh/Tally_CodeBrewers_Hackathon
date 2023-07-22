@@ -125,11 +125,11 @@ function setupGame() {
     $("#players").html("");
 
     // Ending Session if No Player Has Joined the Lobby
-    // if(lobbyDetails.players.length == 1){
-    //     alert("No Players Found. Closing Lobby");
-    //     window.open("multiplayer.html", "_self");
-    //     return;
-    // }
+    if(lobbyDetails.players.length == 1){
+        alert("No Players Found. Closing Lobby");
+        window.open("multiplayer.html", "_self");
+        return;
+    }
 
     type = document.getElementById("type");
     text = lobbyDetails.sentence.split(" ");
