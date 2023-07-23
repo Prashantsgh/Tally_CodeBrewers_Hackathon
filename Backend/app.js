@@ -37,13 +37,13 @@ const io = require('socket.io')(server, {
 
 io.on('connection', (socket) => {
 
-    // Joining The Socket
+    // Joining the Socket and Updating Players in the Current Lobby
     socket.on('Join', function (lobbyid) {
         socket.join(lobbyid);
         io.to(lobbyid).emit("players", lobbies[lobbyid].players);
     });
 
-    // Updating Word Count progress in RealTime
+    // Updating Word Count Progress in RealTime
     socket.on('WordCount', function (lobbyid, playerid, words) {
         lobbies[lobbyid].scores[playerid] = words;
         io.to(lobbyid).emit("ranking", lobbies[lobbyid].scores);
@@ -51,9 +51,6 @@ io.on('connection', (socket) => {
 
     // Updating the Results of current Lobby
     socket.on('Result', function (lobbyid, playerid, words, score) {
-        console.log(lobbyid, typeof lobbyid);
-        console.log(lobbies);
-        console.log();
         lobbies[lobbyid].scores[playerid] = {words, score};
         io.to(lobbyid).emit("Result", lobbies[lobbyid].scores);
 
@@ -61,6 +58,7 @@ io.on('connection', (socket) => {
             socket.leave(lobbyid);
         }, 0);
     });
+
 });
 
 

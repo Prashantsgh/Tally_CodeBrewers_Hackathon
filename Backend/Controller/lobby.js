@@ -3,78 +3,71 @@ const lobbyModel = require('../Model/lobby');
 const statsModel = require('../Model/stats');
 const {getString} = require('./getString');
 
-const lobbies = [];
+const lobbies = {};                                     // To Store Details of all the Lobbies.
+let active= {};                                         // To Store ID of active Lobbies.
+
 
 module.exports.lobbies = lobbies;
+
+// Function to add to a Lobby
 module.exports.newLobby = async function newLobby(req, res) {
-
     const playerid = req.query.id;
-    const mode = req.query.mode.toString();
-    let lobby = await lobbyModel.findOne({mode, status: "active"});
+    const mode = req.query.mode.toString().toLowerCase();
+    let lobbyid = active[mode];
 
-    if (lobby) {
-        lobby.players.push(playerid);
-        await lobby.save();
-
-        lobbies[lobby.lobbyid].players.push(playerid);
-        res.send(lobby);
+    if (lobbyid) {
+        lobbies[lobbyid].players.push(playerid);
     }
     else {
-        let lobbyid = Math.floor((Math.random() * 100000)).toString();
-        while(true){
-            if(lobbies[lobbyid]){
-                lobbyid = Math.floor((Math.random() * 100000)).toString();
-            }
-            else{
-                break;
-            }
+        lobbyid = Math.floor((Math.random() * 100000)).toString();
+        while(lobbies[lobbyid]){
+            lobbyid = Math.floor((Math.random() * 100000)).toString();
         }
 
-        let sentence = getString(mode.toLowerCase());
-        let tempLobby = {
+        active[mode] = lobbyid;         // Set the Lobby as Active
+
+        lobbies[lobbyid] = {
             lobbyid,
             mode,
             status: "active",
-            sentence,
-            owner: playerid,
+            sentence : getString(mode),
             players: [playerid],
+            scores: {},
             time: Math.floor(Date.now() / 1000)
         };
 
-        lobbies[lobbyid] = tempLobby;
-        lobbies[lobbyid].scores = {};
-
-        tempLobby = await lobbyModel.create(tempLobby);
         setTimeout(() => {
-            tempLobby.status = "running";
-            tempLobby.save();
+            active[mode]=undefined;
+            lobbies[lobbyid].status = "running";
         }, 30000);
 
         setTimeout(()=>{
-            closeLobby(tempLobby.lobbyid);
+            closeLobby(lobbyid);
         }, 120000);
-        res.send(tempLobby);
     }
+
+    res.send(lobbies[lobbyid]);
 }
 
 async function closeLobby(lobbyid){
-    let temp = await globalRanking.find();
 
+    // Update Global Rankings
+    let temp = await globalRanking.find();
     temp = temp.map((item)=>{
         return {username:item.username, wordCount:item.wordCount};
     });
 
     let scores = lobbies[lobbyid].scores;
-
-    let newWords=0, newGame=0, players=0,accuracy=0;
+    let newWords=0, newGame=0, players=0,accuracy=0;        // For Platform Stats
     for (let item in scores) {
         if(scores[item].words){
             newGame = 1;
             newWords+=scores[item].words;
             players++;
-            console.log(typeof accuracy, typeof scores[item].score);
             accuracy+=scores[item].score;
 
+            // Check if Player is already in Global Rankings then just update it
+            // Else, Create a New Entry
             let flag=1;
             for(let i = 0;i<temp.length; i++){
                 if(temp[i].username==item){
@@ -107,8 +100,8 @@ async function closeLobby(lobbyid){
         stats.playersCount += players;
 
         stats = await stats.save();
-        console.log(stats);
     }
 
-    lobbies[lobbyid]=undefined;
+    delete lobbies[lobbyid];        // Removing the Details of Lobby
+    console.log(lobbies);
 }
